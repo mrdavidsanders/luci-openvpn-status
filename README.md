@@ -1,4 +1,10 @@
 # openwrt-tools
+
+Updated by @mrdavidsanders [david at kubology dot uk]
+ - Use CBI Tables instead of <div/> to allow sorting and correct display on mobile devices
+ - Update the various filters so this works with OpenWRT
+
+
 Openwrt Scripts made by me...
 **OpenVPN Server - Client list on status Page**
 
