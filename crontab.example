@@ -1,0 +1,2 @@
+*/1 * * * * /etc/openvpn/client-status.sh
+
