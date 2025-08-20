@@ -12,6 +12,8 @@ This simple and raw page + script will give you in the status page, the list of 
 The script will get the status from the openvpn default status on /var/run/openvpn.<instance>.status and post it to a file in /tmp
 The html status page will get that information preformatted from the file and display it on the homepage of openwrt.
 
+![image](luci-openvpn-status.png)
+
 Alternatively, by adding a script to a remote OpenVPN server, you can display any remote OpenVPN server status.
 
 **Instructions**
