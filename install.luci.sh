@@ -6,7 +6,12 @@ LUCI_LUA_ADMIN_INDEX_DIR="/usr/lib/lua/luci/view/admin_status/index/"
 echo "Installing $PKG_NAME ($GIT_REV)"
 echo
 
-if [ `test -e /etc/openwrt_release` ]; then
+test -e /etc/openwrt_release && ISWRT=1 || ISWRT=0
+if [ $ISWRT -eq 0 ]; then
+        echo "Not installing on non-OpenWRT system";
+        exit
+fi
+
 PREREQ_PACKAGES="luci-lua-runtime lua"
 for PKG in ${PREREQ_PACKAGES}; do
         echo "Checking for $PKG"
@@ -30,4 +35,3 @@ echo
 echo "$PKG_NAME succesfully installed"
 else
   echo "Not installing on non-OpenWRT system";
-fi
