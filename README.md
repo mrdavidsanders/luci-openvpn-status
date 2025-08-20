@@ -16,12 +16,13 @@ Alternatively, by adding a script to a remote OpenVPN server, you can display an
 
 **Instructions**
 Extract the files to an OpenWRT/Luci (23+) Router
-```cd files/
+```
+cd extracted_files/
 ./installer.luci.sh
 ```
 Wait one minute for the client generation script to run and the clients will appear on the home page. 
 
 Authors:
-mrdavidsanders <david at kubology dot uk>
-sebabordon <sebasb@outlook.com>
+- mrdavidsanders <david at kubology dot uk>
+- sebabordon <sebasb@outlook.com>
 
