@@ -2,7 +2,7 @@
   require "io"
   require "string"
   local cjson = require "cjson"
-  local test = assert(io.open("./openvpn_test.json", "r"))
+  local test = assert(io.open("./test/openvpn_test.json", "r"))
   local parsedata = cjson.decode(test:read("*all"))
   test:close()
   local conns = {}
@@ -118,7 +118,7 @@
   dprint("Beginning HTML Generation")
   local rows = {}
   cnt=1
-  io.output(assert(io.open("/tmp/test_openvpn_new.htm", "w"))) 
+  local chtml = ""
   for _z,_v in pairs(data) do
 		dprint("(data) 1", _z, _v)
 			rows = _v
@@ -132,16 +132,16 @@
 					dprint("(data) 3", __m, __row)
 				end
 				dprint("******END ROW******")
-		        	io.write("<tr class='tr cbi-rowstyle-",cnt,"'>")
-       		                io.write("<td class='td' data-sortable-row='true'>", rows["Common Name"] ,"</td>")
-       		                io.write("<td class='td' data-sortable-row='true'>", rows["IPv4"],"</td>")
-       		                io.write("<td class='td' data-sortable-row='true'>", rows["IPv6"],"</td>")
-       		                io.write("<td class='td' data-sortable-row='true'>", rows["Real Address"] ,"</td>")
-       		                io.write("<td class='td' data-sortable-row='true'>", rows["Bytes Sent"], "</td>")
-       		                io.write("<td class='td' data-sortable-row='true'>", rows["Bytes Received"] ,"</td>")
-       		                io.write("<td class='td' data-sortable-row='true'>", rows["Connected Since"], "</td>")
-       	       		        io.write("<td class='td' data-sortable-row='true'>", rows["Last Ref"] ,"</td>")
-      			        io.write("</tr>")
+		        	chtml=chtml.."<tr class='tr cbi-rowstyle-",cnt,"'>"
+       		                chtml=chtml.."<td class='td' data-sortable-row='true'>", rows["Common Name"] ,"</td>"
+       		                chtml=chtml.."<td class='td' data-sortable-row='true'>", rows["IPv4"],"</td>"
+       		                chtml=chtml.."<td class='td' data-sortable-row='true'>", rows["IPv6"],"</td>"
+       		                chtml=chtml.."<td class='td' data-sortable-row='true'>", rows["Real Address"] ,"</td>"
+       		                chtml=chtml.."<td class='td' data-sortable-row='true'>", rows["Bytes Sent"], "</td>"
+       		                chtml=chtml.."<td class='td' data-sortable-row='true'>", rows["Bytes Received"] ,"</td>"
+       		                chtml=chtml.."<td class='td' data-sortable-row='true'>", rows["Connected Since"], "</td>"
+       	       		        chtml=chtml.."<td class='td' data-sortable-row='true'>", rows["Last Ref"] ,"</td>"
+      			        chtml=chtml.."</tr>"
                 		if cnt > 2 then
                 			cnt = 1
                 		end
@@ -149,27 +149,41 @@
 			end
   end
   dprint("*************END**************")
---[[
-
-  local client_output = luci.sys.exec("cat /tmp/openvpn_new.htm")
   
-
-  -%>
-
+print [[
+<style>
+.openvpnth {
+    cursor: pointer;
+}
+</style>
 <div class="cbi-section">
         <h3><%:Active OpenVPN Clients%></h3>
-        <table class="table">
-                <tr class="tr table-titles">
-                        <th class="th" data-sortable-row="true"><%:Common Name%></th>
-                        <th class="th" data-sortable-row="true"><%:VPN v4%></th>
-                        <th class="th" data-sortable-row="true"><%:VPN v6%></th>
-                        <th class="th" data-sortable-row="true"><%:Remote Address%></th>
-                        <th class="th" data-sortable-row="true"><%:Bytes Out%></th>
-                        <th class="th" data-sortable-row="true"><%:Bytes In%></th>
-                        <th class="th" data-sortable-row="true"><%:Connected%></th>
-                        <th class="th" data-sortable-row="true"><%:Refreshed%></th>
+        <table class="table" id="openvpntable">
+                <tr class="openvpntr tr">
+                        <th class="th openvpnth"><%:Common Name%></th>
+                        <th class="th openvpnth"><%:VPN v4 / v6%></th>
+                        <th class="th openvpnth"><%:Remote Address%></th>
+                        <th class="th openvpnth"><%:RX / TX%></th>
+                        <th class="th openvpnth"><%:Connected%></th>
+                        <th class="th openvpnth"><%:Refreshed%></th>
                 </tr>
-                <%=client_output%>
+]]
+print(chtml)
+print([[
         </table>
 </div>
---]]
+<script>
+const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+    v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+    )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+    const table = document.getElementById('openvpntable');
+    Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
+        .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+        .forEach(tr => table.appendChild(tr) );
+})));
+</script>
+]])
