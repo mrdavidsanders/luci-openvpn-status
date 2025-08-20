@@ -154,7 +154,7 @@ local function openvpn()
 							dprint("******END ROW******")
 							chtml=chtml.."<tr class='openvpntr tr cbi-rowstyle-"..tostring(cnt).."'>"
 							chtml=chtml.."<td class='openvpntd td' data-title='Common Name'>"..rows["Common Name"].."</td>"
-							chtml=chtml.."<td class='openvpntd td' data-title='VPN v4 / v6'>"..rows["IPv4"]," / "..rows["IPv6"].."</td>"
+							chtml=chtml.."<td class='openvpntd td' data-title='VPN v4 / v6'>"..rows["IPv4"].." / "..rows["IPv6"].."</td>"
 							chtml=chtml.."<td class='openvpntd td' data-title='Remote Address'>"..rows["Real Address"].."</td>"
 							chtml=chtml.."<td class='openvpntd td' data-title='RX / TX'>"..filesize(rows["Bytes Sent"]).." / "..filesize(rows["Bytes Received"]).."</td>"
 							chtml=chtml.."<td class='openvpntd td' data-title='Connected'>"..rows["Connected Since"].."</td>"
