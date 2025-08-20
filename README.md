@@ -1,8 +1,10 @@
 # openwrt-tools
 
 Updated by @mrdavidsanders [david at kubology dot uk]
- - Use CBI Tables instead of <div/> to allow sorting and correct display on mobile devices
- - Update the various filters so this works with OpenWRT
+ - Use CBI Tables instead of ```<div/>``` to allow 
+   sorting and correct display on mobile devices
+ - Update the various filters so this works with 
+   OpenWRT `ash`
 
 
 Openwrt Scripts made by me...
