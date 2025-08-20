@@ -20,3 +20,8 @@ Extract the files to an OpenWRT/Luci (23+) Router
 ./installer.luci.sh
 ```
 Wait one minute for the client generation script to run and the clients will appear on the home page. 
+
+Authors:
+mrdavidsanders <david at kubology dot uk>
+sebabordon <sebasb@outlook.com>
+
