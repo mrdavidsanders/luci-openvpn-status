@@ -156,19 +156,16 @@ local function openvpn()
                 dprint("(data) 3", __m, __row)
             end
             dprint("******END ROW******")
-            chtml = chtml .. "<tr class='openvpntr tr cbi-rowstyle-" .. tostring(cnt) .. "'>"
-            chtml = chtml .. "<td class='openvpntd td' data-title='Common Name'>" .. rows["Common Name"] .. "</td>"
-            chtml =
-                chtml ..
-                "<td class='openvpntd td' data-title='VPN v4 / v6'>" .. rows["IPv4"] .. " / " .. rows["IPv6"] .. "</td>"
-            chtml = chtml .. "<td class='openvpntd td' data-title='Remote Address'>" .. rows["Real Address"] .. "</td>"
-            chtml =
-                chtml ..
-                "<td class='openvpntd td' data-title='RX / TX'>" ..
-                    filesize(rows["Bytes Sent"]) .. " / " .. filesize(rows["Bytes Received"]) .. "</td>"
-            chtml = chtml .. "<td class='openvpntd td' data-title='Connected'>" .. rows["Connected Since"] .. "</td>"
-            chtml = chtml .. "<td class='openvpntd td' data-title='Refreshed'>" .. rows["Last Ref"] .. "</td>"
-            chtml = chtml .. "</tr>"
+            chtml = chtml 
+            .. "<tr class='openvpntr tr cbi-rowstyle-" .. tostring(cnt) .. "'>"
+            .. "<td class='openvpntd td' data-title='Common Name'>" .. rows["Common Name"] .. "</td>"
+            .. "<td class='openvpntd td' data-title='VPN v4 / v6'>" .. rows["IPv4"] .. " / " .. rows["IPv6"] .. "</td>"
+            .. "<td class='openvpntd td' data-title='Remote Address'>" .. rows["Real Address"] .. "</td>"
+            .. "<td class='openvpntd td' data-title='RX / TX'>" 
+            .. filesize(rows["Bytes Sent"]) .. " / " .. filesize(rows["Bytes Received"]) .. "</td>"
+            .. "<td class='openvpntd td' data-title='Connected'>" .. rows["Connected Since"] .. "</td>"
+            .. "<td class='openvpntd td' data-title='Refreshed'>" .. rows["Last Ref"] .. "</td>"
+            .. "</tr>"
             if cnt > 2 then
                 cnt = 1
             end
