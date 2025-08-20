@@ -6,11 +6,9 @@ LUCI_LUA_ADMIN_INDEX_DIR="/usr/lib/lua/luci/view/admin_status/index/"
 echo "Installing $PKG_NAME ($GIT_REV)"
 echo
 
-test -e /etc/openwrt_release && ISWRT=1 || ISWRT=0
-if [ $ISWRT -eq 0 ]; then
-        echo "Not installing on non-OpenWRT system";
-        exit
-fi
+test -e /etc/openwrt_release || \
+        echo "Not installing on non-OpenWRT system"; \
+        exit 1
 
 test -e /usr/bin/whoami && if [ "$(whoami)" != "root" ]; \
         then echo "You need root privileges to install Lua Libs"; \
