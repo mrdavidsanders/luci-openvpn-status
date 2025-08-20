@@ -1,5 +1,5 @@
 #!/bin/sh
-GIT_REV=$(echo $Id$)
+GIT_REV='$Id$'
 PKG_NAME="luci-openvpn-status"
 LUA_LIB_DIR="/usr/lib/lua/"
 LUCI_LUA_ADMIN_INDEX_DIR="/usr/lib/lua/luci/view/admin_status/index/"
