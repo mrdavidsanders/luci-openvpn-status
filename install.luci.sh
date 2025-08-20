@@ -33,5 +33,3 @@ echo "Copying openvpn.htm to $LUCI_LUA_ADMIN_INDEX_DIR"
 cp openvpn.htm $LUCI_LUA_ADMIN_INDEX_DIR
 echo
 echo "$PKG_NAME succesfully installed"
-else
-  echo "Not installing on non-OpenWRT system";
