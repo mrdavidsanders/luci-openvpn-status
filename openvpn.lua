@@ -16,7 +16,7 @@ end
 
 local function openvpn()
 	
-	if debug == true then
+	if isdebug == true then
 		__DEBUG__=1
 		test = assert(io.open("./test/openvpn_test.json", "r"))
 		dprint("DEBUG ON")
@@ -25,18 +25,17 @@ local function openvpn()
 		test = assert(io.open("/tmp/openvpn_new.json", "r"))
 	end
 
-	if luci == false then
+	if isluci == false then
 		local cjson = require "cjson"
 		parsedata = cjson.decode(test:read("*all"))
 		test:close()
 	else
 		require "luci.sys"
 		require "luci.jsonc"
-		parsedata = luci.jsonc.parse(test)
+		parsedata = luci.jsonc.parse(test:read("*all"))
 		test:close()
 	end
 
-	dprint(parsedata)
 
 	local conns = {}
 	local pairset = {}
@@ -168,7 +167,7 @@ local function openvpn()
 					end
 	end
 	dprint("*************END**************")
-	if luci == true then
+	if __DEBUG__ == 0 then
 		return chtml
 	else
 		return
