@@ -12,10 +12,9 @@ if [ $ISWRT -eq 0 ]; then
         exit
 fi
 
-if [ "$(whoami)" != "root" ]; then
-        echo "You need root privileges to install Lua Libs";
-        exit
-fi
+test -e /usr/bin/whoami && if [ "$(whoami)" != "root" ]; \
+        then echo "You need root privileges to install Lua Libs"; \
+        exit 1; fi || echo "Skipping root user check"
 
 PREREQ_PACKAGES="luci-lua-runtime lua"
 for PKG in ${PREREQ_PACKAGES}; do
@@ -24,7 +23,7 @@ for PKG in ${PREREQ_PACKAGES}; do
         if [ "${PREREQ}" == "" ];
         then
                 echo "${PKG} not installed!";
-                exit -1
+                exit 1
         fi
 done
 echo
