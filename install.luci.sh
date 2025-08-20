@@ -6,6 +6,7 @@ LUCI_LUA_ADMIN_INDEX_DIR="/usr/lib/lua/luci/view/admin_status/index/"
 echo "Installing $PKG_NAME ($GIT_REV)"
 echo
 
+if [ `test -e /etc/openwrt_release` ]; then
 PREREQ_PACKAGES="luci-lua-runtime lua"
 for PKG in ${PREREQ_PACKAGES}; do
         echo "Checking for $PKG"
@@ -27,5 +28,6 @@ echo "Copying openvpn.htm to $LUCI_LUA_ADMIN_INDEX_DIR"
 cp openvpn.htm $LUCI_LUA_ADMIN_INDEX_DIR
 echo
 echo "$PKG_NAME succesfully installed"
-
-
+else
+  echo "Not installing on non-OpenWRT system";
+fi
