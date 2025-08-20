@@ -5,6 +5,10 @@ LUA_LIB_DIR="/usr/lib/lua/"
 LUCI_LUA_ADMIN_INDEX_DIR="./test/"
 echo "Installing $PKG_NAME ($GIT_REV)"
 echo
+if [ "$(whoami)" != "root" ]; then
+	echo "You need root privileges to install Lua Libs";
+	exit
+fi
 
 echo
 LUALIBS="openvpn.lua filesize.lua"
