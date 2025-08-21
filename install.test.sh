@@ -28,7 +28,9 @@ for HTM in ${HTMLPG}; do
 done
 MISCF="openvpn_new.json"
 for MF in ${MISCF}; do
-        cp -v $MF $TMP_DIR
+        test -e $TMP_DIR/$MF && \
+        echo "Not overwriting existing $TMP_DIR$MF" \
+        || cp -v $MF $TMP_DIR
 done
 echo
 echo "$PKG_NAME ($PKG_VERSION) succesfully installed"

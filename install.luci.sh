@@ -48,8 +48,10 @@ for HTM in ${HTMLPG}; do
 done
 MISCF="openvpn_new.json"
 for MF in ${MISCF}; do
-        echo "Copying $MF to $TMP_DIR"
-        cp $MF $TMP_DIR
+        test -e $TMP_DIR/$MF && \
+        echo "Not overwriting existing $TMP_DIR$MF" \
+        || { echo "Copying $MF to $TMP_DIR"; \
+        cp -v $MF $TMP_DIR; }
 done
 echo
 echo "$PKG_NAME ($PKG_VERSION) succesfully installed"
