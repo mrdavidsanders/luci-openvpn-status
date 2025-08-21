@@ -18,8 +18,8 @@ jobs:
       run: sudo apt-get install -y lua5.1 luarocks g++
 
     - name: Install lua-format
-      run: luarocks install --server=https://luarocks.org/dev luaformatter 
+      run: sudo luarocks install --server=https://luarocks.org/dev luaformatter 
 
-    - name: Run check
+    - name: Run Make
       run: make clean build
   
