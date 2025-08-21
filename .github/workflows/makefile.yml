@@ -22,9 +22,20 @@ jobs:
         - name: Make
           run: make clean build
           
-        - name: Release  
+  release:
+        runs-on: ubuntu-latest
+        if: github.ref_type == 'tag'
+        steps:
+        - uses: actions/checkout@v4
+        - uses: JohnnyMorganz/stylua-action@v4
         - uses: softprops/action-gh-release@v2
-          if: github.ref_type == 'tag'
           with:
-              files: ./build/*.tgz
+            token: ${{ secrets.GH_TOKEN }}
+            version: v2.1.0
+            args: false
+            files: ./build/*.tgz
+            
+        - name: Make
+          run: make clean build
+
   
