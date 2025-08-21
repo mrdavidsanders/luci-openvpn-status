@@ -5,12 +5,13 @@ MODULE_VERSION=$(cat ./MODULE_VERSION)
 GIT_REV='$Id$'
 GIT_REV="${MODULE_VERSION}-git-${GIT_REV#?????}"
 
+PKG_VERSION=$(echo "${GIT_REV%??}")
 PKG_NAME="luci-openvpn-status"
 LUA_LIB_DIR="/usr/lib/lua/"
 LUCI_LUA_ADMIN_INDEX_DIR="/usr/lib/lua/luci/view/admin_status/index/"
 TMP_DIR="/tmp/"
 
-echo "Installing $PKG_NAME (${GIT_REV%??})"
+echo "Installing $PKG_NAME ($PKG_VERSION)"
 echo
 
 test -e /etc/openwrt_release && \
@@ -43,6 +44,7 @@ HTMLPG="openvpn.htm"
 for HTM in ${HTMLPG}; do
         echo "Copying $HTM to $LUCI_LUA_ADMIN_INDEX_DIR"
         cp $HTM $LUCI_LUA_ADMIN_INDEX_DIR
+        sed -i "s/{{VERSION}}/$PKG_NAME ($PKG_VERSION)/g" $LUCI_LUA_ADMIN_INDEX_DIR/$HTM
 done
 MISCF="openvpn_new.json"
 for MF in ${MISCF}; do
@@ -50,4 +52,4 @@ for MF in ${MISCF}; do
         cp $MF $TMP_DIR
 done
 echo
-echo "$PKG_NAME (${GIT_REV%??}) succesfully installed"
+echo "$PKG_NAME ($PKG_VERSION) succesfully installed"

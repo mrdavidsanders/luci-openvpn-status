@@ -3,21 +3,41 @@
   isluci = true
   openvpn = require "openvpn"
   -%>
+<style>
+#luci-ovpn-version {
+display: flex;
+width: 100%;
+font-size: x-small;
+justify-content: right;
+}
 
+[ovpn-tooltip]:hover::after {
+  display: block;
+  position: absolute;
+  font-size: x-small;
+  content: attr(ovpn-tooltip);
+  border: 1px solid black;
+  background: white;
+  padding: .25em;
+}
 </style>
 <div class="cbi-section">
-        <h3><%:Active OpenVPN Clients%></h3>
+        <h3><div ovpn-tooltip="{{VERSION}}">
+                <%:Active OpenVPN Clients%>
+        </div></h3>
         <table class="table" id="openvpntable">
-                <tr class="openvpntr tr">
-                        <th class="th openvpnth"><%:Common Name%></th>
-                        <th class="th openvpnth"><%:VPN v4 / v6%></th>
-                        <th class="th openvpnth"><%:Remote Address%></th>
-                        <th class="th openvpnth"><%:RX / TX%></th>
-                        <th class="th openvpnth"><%:Connected%></th>
-                        <th class="th openvpnth"><%:Refreshed%></th>
+                <tr class="openvpntr tr table-titles">
+                        <th class="th openvpnth" data-sortable-row="true"><%:Common Name%></th>
+                        <th class="th openvpnth" data-sortable-row="true"><%:VPN v4 / v6%></th>
+                        <th class="th openvpnth" data-sortable-row="true"><%:Remote Address%></th>
+                        <th class="th openvpnth" data-sortable-row="true"><%:RX / TX%></th>
+                        <th class="th openvpnth" data-sortable-row="true"><%:Connected%></th>
+                        <th class="th openvpnth" data-sortable-row="true"><%:Refreshed%></th>
                 </tr>
                 <%=openvpn()%>
         </table>
+
+	
 </div>
 <script>
 const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
