@@ -55,11 +55,7 @@ jobs:
 
         - name: Show the folder contents
           run: find ./build
-        - uses: softprops/action-gh-release@
-          with:
-            files: 
-            token: ${{ secrets.GH_TOKEN }}
-        
+          
         - name: Release the beast
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
