@@ -34,6 +34,9 @@ done
 
 cd ./build 
 tar -cvzf $PKG_NAME-$PKG_VERSION.tgz ./$PKG_NAME-$PKG_VERSION/ 1>&2
+echo "Built package: ./build/$PKG_NAME-$PKG_VERSION.tgz" 1>&2
+echo "Removing temporary build dir: ./build/$PKG_NAME-$PKG_VERSION" 1>&2
+rm -rf ./build/$PKG_NAME-$PKG_VERSION 1>&2
 cd ..
 echo "./build/$PKG_NAME-$PKG_VERSION.tgz"
 

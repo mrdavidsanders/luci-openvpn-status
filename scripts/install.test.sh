@@ -7,8 +7,8 @@ test -e ./BUILD_VERSION && GIT_REV=$(cat BUILD_VERSION) || GIT_REV=dev
 PKG_VERSION="${MODULE_VERSION}-git-${GIT_REV}"
 PKG_NAME="luci-openvpn-status"
 
-LUA_LIB_DIR="/usr/lib/lua/"
-LUCI_LUA_ADMIN_INDEX_DIR="./test/"
+LUA_LIB_DIR="/usr/share/lua/5.1/"
+LUCI_LUA_ADMIN_INDEX_DIR="./test"
 TMP_DIR="/tmp/"
 
 echo "Installing $PKG_NAME ($PKG_VERSION)"
@@ -17,16 +17,16 @@ test -e /usr/bin/whoami && if [ "$(whoami)" != "root" ]; \
         then echo "You need root privileges to install Lua Libs"; \
         exit 1; fi || echo "Skipping root user check"
 
-LUALIBS="openvpn.lua filesize.lua"
+LUALIBS="./libs/openvpn.lua ./libs/filesize.lua"
 for LIB in ${LUALIBS}; do
         cp -v $LIB $LUA_LIB_DIR
 done
 HTMLPG="openvpn.htm"
 for HTM in ${HTMLPG}; do
-        cp -v $HTM $LUCI_LUA_ADMIN_INDEX_DIR
+        cp -v "./htm/$HTM" $LUCI_LUA_ADMIN_INDEX_DIR
         sed -i "s/{{VERSION}}/$PKG_NAME ($PKG_VERSION)/g" $LUCI_LUA_ADMIN_INDEX_DIR/$HTM
 done
-MISCF="openvpn_new.json"
+MISCF="./scripts/openvpn_new.json"
 for MF in ${MISCF}; do
         test -e $TMP_DIR/$MF && \
         echo "Not overwriting existing $TMP_DIR$MF" \
