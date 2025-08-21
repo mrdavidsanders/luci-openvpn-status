@@ -44,6 +44,6 @@ jobs:
 
         - uses: softprops/action-gh-release@v2
           with:
-            files: luci-openvpn-status/*
+            files: ./luci-openvpn-status*
             token: ${{ secrets.GH_TOKEN }}
 
