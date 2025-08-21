@@ -18,7 +18,7 @@ jobs:
             token: ${{ secrets.GH_TOKEN }}
             version: v2.1.0
             args: false
-            
+
         - name: Make
           run: make clean build
 
@@ -31,7 +31,7 @@ jobs:
           with:
             name: luci-openvpn-status
             path: ./build/${{ steps.pkg-version.outputs.pkg-version }}.tgz
-          
+
   release:
         needs: build
         runs-on: ubuntu-latest
