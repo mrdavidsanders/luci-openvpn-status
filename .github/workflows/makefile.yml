@@ -36,11 +36,7 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         if: github.ref_type == 'tag'
-        steps:
-        - name: Create Version
-          id: pkg-version
-          run: echo "pkg-version=luci-openvpn-status-$(cat ./MODULE_VERSION)-git-${{ github.sha }}" >> $GITHUB_OUTPUT
-
+        steps: 
         - name: Download a single artifact
           uses: actions/download-artifact@v4
           with:
@@ -48,5 +44,5 @@ jobs:
 
         - uses: softprops/action-gh-release@v2
           with:
-            files: ${{ steps.pkg-version.outputs.pkg-version }}.tgz
+            files: luci-openvpn-status/*
 
