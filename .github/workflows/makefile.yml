@@ -28,14 +28,15 @@ jobs:
         steps:
         - uses: actions/checkout@v4
         - uses: JohnnyMorganz/stylua-action@v4
-        - uses: softprops/action-gh-release@v2
-          with:
+	  with:
             token: ${{ secrets.GH_TOKEN }}
             version: v2.1.0
             args: false
+        - uses: softprops/action-gh-release@v2
+          with:
             files: ./build/*.tgz
             
         - name: Make
           run: make clean build
 
-  
+
