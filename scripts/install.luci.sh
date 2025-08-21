@@ -1,5 +1,10 @@
 #!/bin/sh
 # Run this in POSIX shell mode
+AC_RED="\e[31m"
+AC_GREEN="\e[32m"
+AC_GRAY="\e[37m"
+AC_WHITE="\e[97m"
+AC_END="\e[0m"
 
 MODULE_VERSION=$(cat ./MODULE_VERSION)
 test -e ./BUILD_VERSION && GIT_REV=$(cat BUILD_VERSION) || GIT_REV=dev
@@ -12,47 +17,46 @@ LUCI_LUA_ADMIN_INDEX_DIR="/usr/lib/lua/luci/view/admin_status/index/"
 TMP_DIR="/tmp/"
 OWRT_MIN=23
 
-echo "Installing $PKG_NAME ($PKG_VERSION)"
-echo
+echo -e "${AC_GREEN}Installing ${AC_WHITE} $PKG_NAME${AC_GREEN} Version ${AC_WHITE}($PKG_VERSION)"
+echo -e
 
 test -e /etc/openwrt_release && \
-if [ "$(source /etc/openwrt_release; echo $DISTRIB_RELEASE|cut -c1-2)" -lt $OWRT_MIN ]; \
-	then echo "Your OpenWRT version ($DISTRIB_RELEASE) may be too old"; \
-fi ||  { echo "Not installing on non-OpenWRT system" && exit 1; }
+if [ "$(source /etc/openwrt_release; echo -e $DISTRIB_RELEASE|cut -c1-2)" -lt $OWRT_MIN ]; \
+	then echo -e "${AC_WHITE}Your OpenWRT version ${AC_RED}($DISTRIB_RELEASE) ${AC_WHITE}may be too old"; \
+fi ||  { echo -e "${AC_RED}Not installing on non-OpenWRT system${AC_END}" && exit 1; }
 
-test -e /usr/bin/whoami && \
-if [ "$(whoami)" != "root" ]; then \ 
-        echo "You need root privileges to install Lua Libs"; \ 
-        exit 1; \
-fi || echo "Skipping root user check"
+test -e /usr/bin/whoami && if [ "$(whoami)" != "root" ]; \
+        then echo -e "${AC_RED}You need root privileges to install Lua Libs${AC_END}"; \
+        exit 1; fi || echo -e "${AC_GRAY}Skipping root user check"
 
 PREREQ_PACKAGES="luci-lua-runtime lua"
 for PKG in ${PREREQ_PACKAGES}; do
-        echo "Checking for $PKG"
+        echo -e "Checking for $PKG"
         PREREQ=`opkg list-installed ${PKG}`
         if [ "${PREREQ}" == "" ];
         then
-                echo "${PKG} not installed!";
+                echo -e "${AC_RED}${PKG} not installed!${AC_END}";
                 exit 1
         fi
 done
 LUALIBS="openvpn.lua filesize.lua"
 for LIB in ${LUALIBS}; do
-        echo "Copying $LIB to $LUA_LIB_DIR"
+        echo -e "${AC_WHITE}Copying:${AC_GRAY} $LIB to $LUA_LIB_DIR"
         cp $LIB $LUA_LIB_DIR
 done
 HTMLPG="openvpn.htm"
 for HTM in ${HTMLPG}; do
-        echo "Copying $HTM to $LUCI_LUA_ADMIN_INDEX_DIR"
+        echo -e "Copying ${AC_WHITE}:${AC_GRAY}$HTM to $LUCI_LUA_ADMIN_INDEX_DIR"
         cp $HTM $LUCI_LUA_ADMIN_INDEX_DIR
         sed -i "s/{{VERSION}}/$PKG_NAME ($PKG_VERSION)/g" $LUCI_LUA_ADMIN_INDEX_DIR/$HTM
 done
 MISCF="openvpn_new.json"
 for MF in ${MISCF}; do
         test -e $TMP_DIR/$MF && \
-        echo "Not overwriting existing $TMP_DIR$MF" \
-        || { echo "Copying $MF to $TMP_DIR"; \
+        echo -e "${AC_WHITE}Not overwriting existing $TMP_DIR$MF${AC_GRAY}" \
+        || { echo -e "Copying $MF to $TMP_DIR"; \
         cp -v $MF $TMP_DIR; }
 done
-echo
-echo "$PKG_NAME ($PKG_VERSION) succesfully installed"
+echo -e
+echo -e "${AC_WHITE}$PKG_NAME ($PKG_VERSION) succesfully installed ${AC_END}"
+echo -e
