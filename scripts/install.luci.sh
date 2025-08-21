@@ -46,7 +46,7 @@ for LIB in ${LUALIBS}; do
 done
 HTMLPG="openvpn.htm"
 for HTM in ${HTMLPG}; do
-        echo -e "Copying ${AC_WHITE}:${AC_GRAY}$HTM to $LUCI_LUA_ADMIN_INDEX_DIR"
+        echo -e "${AC_WHITE}Copying:${AC_GRAY} $HTM to $LUCI_LUA_ADMIN_INDEX_DIR"
         cp $HTM $LUCI_LUA_ADMIN_INDEX_DIR
         sed -i "s/{{VERSION}}/$PKG_NAME ($PKG_VERSION)/g" $LUCI_LUA_ADMIN_INDEX_DIR/$HTM
 done
@@ -54,9 +54,9 @@ MISCF="openvpn_new.json"
 for MF in ${MISCF}; do
         test -e $TMP_DIR/$MF && \
         echo -e "${AC_WHITE}Not overwriting existing $TMP_DIR$MF${AC_GRAY}" \
-        || { echo -e "Copying $MF to $TMP_DIR"; \
-        cp -v $MF $TMP_DIR; }
+        || { echo -e "${AC_WHITE}Copying: ${AC_GRAY}$MF to $TMP_DIR"; \
+        cp $MF $TMP_DIR; }
 done
 echo -e
-echo -e "${AC_WHITE}$PKG_NAME ($PKG_VERSION) succesfully installed ${AC_END}"
+echo -e "${AC_GREEN}$PKG_NAME ($PKG_VERSION) ${AC_WHITE}succesfully installed ${AC_END}"
 echo -e
