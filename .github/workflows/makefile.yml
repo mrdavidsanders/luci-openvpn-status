@@ -21,21 +21,32 @@ jobs:
             
         - name: Make
           run: make clean build
+
+        - name: Create Version
+          id: pkg-version
+          run: echo "$(cat ./MODULE_VERSION)-git-${{ github.sha }}" >> $GITHUB_OUTPUT
+
+        - name: Upload versioned artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: luci-openvpn-status
+            path: ./build/${{ steps.pkg-version.outputs }}.tgz
           
   release:
         needs: build
         runs-on: ubuntu-latest
         if: github.ref_type == 'tag'
         steps:
-        - uses: actions/checkout@v4
-        - uses: JohnnyMorganz/stylua-action@v4
+        - name: Create Version
+          id: pkg-version
+          run: echo "$(cat ./MODULE_VERSION)-git-${{ github.sha }}" >> $GITHUB_OUTPUT
+
+        - name: Download a single artifact
+          uses: actions/download-artifact@v4
           with:
-            token: ${{ secrets.GH_TOKEN }}
-            version: v2.1.0
-            args: false
+            name: luci-openvpn-status
+            
         - uses: softprops/action-gh-release@v2
           with:
-            files: ./build/*.tgz
-            
-        - name: Make
-          run: make clean build
+            files: ${{ steps.pkg-version.outputs }}.tgz
+        
