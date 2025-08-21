@@ -36,17 +36,18 @@ for PKG in ${PREREQ_PACKAGES}; do
 done
 LUALIBS="openvpn.lua filesize.lua"
 for LIB in ${LUALIBS}; do
-        cp -v $LIB $LUA_LIB_DIR
+        echo "Copying $LIB to $LUA_LIB_DIR"
+        cp $LIB $LUA_LIB_DIR
 done
 HTMLPG="openvpn.htm"
 for HTM in ${HTMLPG}; do
-        cp -v $HTM $LUCI_LUA_ADMIN_INDEX_DIR
+        echo "Copying $HTM to $LUCI_LUA_ADMIN_INDEX_DIR"
+        cp $HTM $LUCI_LUA_ADMIN_INDEX_DIR
 done
 MISCF="openvpn_new.json"
 for MF in ${MISCF}; do
-        cp -v $MF $TMP_DIR
+        echo "Copying $MF to $TMP_DIR"
+        cp $MF $TMP_DIR
 done
 echo
-
 echo "$PKG_NAME (${GIT_REV%??}) succesfully installed"
-
