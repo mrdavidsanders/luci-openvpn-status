@@ -28,7 +28,7 @@ jobs:
         steps:
         - uses: actions/checkout@v4
         - uses: JohnnyMorganz/stylua-action@v4
-	  with:
+          with:
             token: ${{ secrets.GH_TOKEN }}
             version: v2.1.0
             args: false
@@ -38,5 +38,3 @@ jobs:
             
         - name: Make
           run: make clean build
-
-
