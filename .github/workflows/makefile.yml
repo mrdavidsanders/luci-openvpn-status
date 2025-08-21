@@ -56,7 +56,7 @@ jobs:
         - name: Show the folder contents
           run: find ./build
 
-        - uses: softprops/action-gh-release@v2
+        - uses: softprops/action-gh-release@v2.3.1
           with:
             files: ./build/${{ steps.pkg-version.outputs.pkg-version }}.tgz
             token: ${{ secrets.GH_TOKEN }}
