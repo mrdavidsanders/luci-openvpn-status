@@ -17,12 +17,14 @@ The html status page will get that information preformatted from the file and di
 Alternatively, by adding a script to a remote OpenVPN server, you can display any remote OpenVPN server status.
 
 **Instructions**
-Extract the files to an OpenWRT/Luci (23+) Router
-```
-cd extracted_files/
-./installer.luci.sh
-```
-Wait one minute for the client generation script to run and the clients will appear on the home page. 
+
+1. Go grab the latest version from https://github.com/mrdavidsanders/luci-openvpn-status/releases
+2. Extract the files on an OpenWRT/Luci (23+) Router
+  ```
+  cd extracted_files/
+  ./installer.luci.sh
+  ```
+3. Wait one minute for the client generation script to run and the clients will appear on the home page. 
 
 Authors:
 - mrdavidsanders <david at kubology dot uk>
