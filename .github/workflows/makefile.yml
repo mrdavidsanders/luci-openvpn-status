@@ -37,13 +37,20 @@ jobs:
         runs-on: ubuntu-latest
         if: github.ref_type == 'tag'
         steps: 
+        - name: Ensure the build folder exists
+          run: mkdir -p ./build
+
         - name: Download a single artifact
           uses: actions/download-artifact@v4
           with:
             name: luci-openvpn-status
+            path: ./build/
+
+        - name: Show the folder contents
+          run: find ./build
 
         - uses: softprops/action-gh-release@v2
           with:
-            files: ./luci-openvpn-status*
+            files: ./build/luci-openvpn-status/*.tgz
             token: ${{ secrets.GH_TOKEN }}
 
