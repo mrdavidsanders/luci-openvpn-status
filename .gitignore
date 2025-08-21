@@ -1,5 +1,6 @@
 lib
 test/openvpn.htm
+test/openvpn_new.json
 tmp/*
 build
 BUILD_VERSION
