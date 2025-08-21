@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install dependencies
-      run: apt install lua5.1 luarocks g++
+      run: sudo apt-get install -y lua5.1 luarocks g++
 
     - name: Install lua-format
       run: luarocks install --server=https://luarocks.org/dev luaformatter 
