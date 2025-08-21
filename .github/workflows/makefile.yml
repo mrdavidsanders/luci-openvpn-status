@@ -23,6 +23,7 @@ jobs:
           run: make clean build
           
   release:
+        needs: build
         runs-on: ubuntu-latest
         if: github.ref_type == 'tag'
         steps:
