@@ -6,7 +6,16 @@ GIT_REV=$(git log -n 1 --format=%H)
 PKG_VERSION="${MODULE_VERSION}-git-${GIT_REV}"
 PKG_NAME="luci-openvpn-status"
 
-PRODFILES="client-status.sh install.luci.sh server_status.sh crontab.example filesize.lua openvpn.htm openvpn.lua openvpn_new.json MODULE_VERSION"
+PRODFILES="scripts/client-status.sh \
+	   scripts/crontab.example  \
+	   scripts/server_status.sh \
+           scripts/install.luci.sh  \
+           scripts/openvpn_new.json \
+           htm/openvpn.htm 	    \
+           MODULE_VERSION           \
+	   libs/filesize.lua        \
+	   libs/openvpn.lua"
+
 BUILD_DIR="./build/$PKG_NAME-$PKG_VERSION"
 mkdir -p $BUILD_DIR 1>&2
 echo $GIT_REV > $BUILD_DIR/BUILD_VERSION
