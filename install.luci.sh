@@ -8,17 +8,9 @@ echo "Installing $PKG_NAME ($GIT_REV)"
 echo
 
 test -e /etc/openwrt_release && \
-if [ $? -eq 0 ]; then
-        echo "OpenWRT Detected"
-else 
-        echo "Not installing on non-OpenWRT system" 
-        exit 1
-fi
-
-test -e /etc/openwrt_release && \
-if [ "`source /etc/openwrt_release; echo $DISTRIB_RELEASE|cut -c1-2`" -lt 23 ]; then 
-        echo "Your OpenWRT version ($DISTRIB_RELEASE) may be too old"
-fi
+if [ "$(source /etc/openwrt_release; echo $DISTRIB_RELEASE|cut -c1-2)" -lt 23 ]; \
+	then echo "Your OpenWRT version ($DISTRIB_RELEASE) may be too old"; \
+fi ||  { echo "Not installing on non-OpenWRT system" && exit 1; }
 
 test -e /usr/bin/whoami && \
 if [ "$(whoami)" != "root" ]; then \ 
