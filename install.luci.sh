@@ -7,15 +7,17 @@ GIT_REV="${MODULE_VERSION}-git-${GIT_REV#?????}"
 
 PKG_VERSION=$(echo "${GIT_REV%??}")
 PKG_NAME="luci-openvpn-status"
+
 LUA_LIB_DIR="/usr/lib/lua/"
 LUCI_LUA_ADMIN_INDEX_DIR="/usr/lib/lua/luci/view/admin_status/index/"
 TMP_DIR="/tmp/"
+OWRT_MIN=23
 
 echo "Installing $PKG_NAME ($PKG_VERSION)"
 echo
 
 test -e /etc/openwrt_release && \
-if [ "$(source /etc/openwrt_release; echo $DISTRIB_RELEASE|cut -c1-2)" -lt 23 ]; \
+if [ "$(source /etc/openwrt_release; echo $DISTRIB_RELEASE|cut -c1-2)" -lt $OWRT_MIN ]; \
 	then echo "Your OpenWRT version ($DISTRIB_RELEASE) may be too old"; \
 fi ||  { echo "Not installing on non-OpenWRT system" && exit 1; }
 

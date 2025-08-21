@@ -7,6 +7,7 @@ GIT_REV="${MODULE_VERSION}-git-${GIT_REV#?????}"
 
 PKG_VERSION=$(echo "${GIT_REV%??}")
 PKG_NAME="luci-openvpn-status"
+
 LUA_LIB_DIR="/usr/lib/lua/"
 LUCI_LUA_ADMIN_INDEX_DIR="./test/"
 TMP_DIR="/tmp/"
