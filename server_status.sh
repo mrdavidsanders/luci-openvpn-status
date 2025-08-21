@@ -14,13 +14,13 @@ sed 's/$/"/g' >> /tmp/ovpn_connstats
 
 # Data
 cat /var/log/status.log | \
-tail -n +4 | \
-grep -B10000 -e ROUTING\ TABLE | \
-head -n -1 | \
+sed -n '/Connected\ Since/,/ROUTING\ TABLE/p' | \
+tail +2 | head -n-1 | \
 sort -t ',' | \
 sed 's/^/"/g' | \
 sed 's/,/","/g' | \
-sed 's/$/"/g' >> /tmp/ovpn_connstats
+sed 's/$/"/g' \
+>> /tmp/ovpn_connstats
 
 # Route Header Lines
 cat /var/log/status.log | \
@@ -34,16 +34,15 @@ sed 's/$/"/g' >> /tmp/ovpn_routestats
 
 # Data
 cat /var/log/status.log | \
-grep -A10000 -e ROUTING\ TABLE | \
-grep -B10000 -e GLOBAL\ STATS | \
-tail +3 | \
-sed 's/GLOBAL STATS//g' | \
-sed "s/\s/-/g" | \
-sort  -t ',' -k2b,2 -k3b,3 | \
-tail +2 | \
+sed -n '/Last\ Ref/,/GLOBAL\ STATS/p' | \
+tail +2 | head -n-1 | \
+awk -F ',' {'printf "%s,%s,%s,%s\n",$2,$1,$3,$4'} | \
+sort -t ',' |  \
+awk -F ',' {'printf "%s,%s,%s,%s\n",$2,$1,$3,$4'} | \
 sed 's/^/"/g' | \
 sed 's/,/","/g' | \
-sed 's/$/"/g' >> /tmp/ovpn_routestats
+sed 's/$/"/g' \
+>> /tmp/ovpn_routestats
 
 csvjson /tmp/ovpn_connstats | \
 jq  '.[] | select(.["Common Name"])|( {(.["Common Name"]):  [.]} )' \
