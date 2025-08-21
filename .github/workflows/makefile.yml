@@ -24,13 +24,13 @@ jobs:
 
         - name: Create Version
           id: pkg-version
-          run: echo "$(cat ./MODULE_VERSION)-git-${{ github.sha }}" >> $GITHUB_OUTPUT
+          run: echo "pkg-version=$(cat ./MODULE_VERSION)-git-${{ github.sha }}" >> $GITHUB_OUTPUT
 
         - name: Upload versioned artifact
           uses: actions/upload-artifact@v4
           with:
             name: luci-openvpn-status
-            path: ./build/${{ steps.pkg-version.outputs }}.tgz
+            path: ./build/${{ steps.pkg-version.outputs.pkg-version }}.tgz
           
   release:
         needs: build
@@ -39,14 +39,14 @@ jobs:
         steps:
         - name: Create Version
           id: pkg-version
-          run: echo "$(cat ./MODULE_VERSION)-git-${{ github.sha }}" >> $GITHUB_OUTPUT
+          run: echo "pkg-version=$(cat ./MODULE_VERSION)-git-${{ github.sha }}" >> $GITHUB_OUTPUT
 
         - name: Download a single artifact
           uses: actions/download-artifact@v4
           with:
             name: luci-openvpn-status
-            
+
         - uses: softprops/action-gh-release@v2
           with:
-            files: ${{ steps.pkg-version.outputs }}.tgz
-        
+            files: ${{ steps.pkg-version.outputs.pkg-version }}.tgz
+
