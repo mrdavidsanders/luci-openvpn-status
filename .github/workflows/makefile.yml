@@ -8,18 +8,18 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Install dependencies
-      run: sudo apt-get install -y lua5.1 luarocks g++
-
-    - name: Install lua-format
-      run: sudo luarocks install --server=https://luarocks.org/dev luaformatter 
-
-    - name: Run Make
-      run: make clean build
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - uses: JohnnyMorganz/stylua-action@v4
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            version: v2.1.0
+            args: false
+            
+        - name: Install dependencies
+          run: sudo apt-get install -y lua5.1 luarocks g++
+          
+        - name: Run Make
+          run: make clean build
   
