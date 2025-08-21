@@ -15,14 +15,14 @@ PKG_NAME="luci-openvpn-status"
 echo -e "${AC_GREEN}Building: ${AC_WHITE}$PKG_NAME ${AC_GREEN}Version: ${AC_WHITE}$PKG_VERSION" >&2
 echo >&2
 PRODFILES="scripts/client-status.sh \
-  		   scripts/crontab.example  \
-	   	   scripts/server_status.sh \
+           scripts/crontab.example  \
+	   scripts/server_status.sh \
            scripts/install.luci.sh  \
            scripts/openvpn_new.json \
-           htm/openvpn.htm 	  		\
+           htm/openvpn.htm          \
            MODULE_VERSION           \
-	       libs/filesize.lua        \
-	       libs/openvpn.lua"
+	   libs/filesize.lua        \
+	   libs/openvpn.lua"
 
 BUILD_DIR="./build/$PKG_NAME-$PKG_VERSION"
 echo -e "${AC_GREEN}Building in ${AC_WHITE}$BUILD_DIR" >&2
@@ -41,7 +41,7 @@ echo -e "${AC_GREEN}Remove debug from prod Lua modules" >&2
 for MOD in $LUAMODS; do
 	echo -e "${AC_WHITE}$MOD" >&2
 	sed -i "s/dprint(\".*)//g" $MOD
-	lua-format -i $MOD
+	stylua --syntax Lua51 $MOD
 done
 
 echo >&2
@@ -56,3 +56,5 @@ echo -e "${AC_GREEN}Built package: ${AC_WHITE}./build/$PKG_NAME-$PKG_VERSION.tgz
 echo >&2
 cd ..
 echo "./build/$PKG_NAME-$PKG_VERSION.tgz" >&1
+
+
