@@ -2,10 +2,9 @@
 # Run this in POSIX shell mode
 
 MODULE_VERSION=$(cat ./MODULE_VERSION)
-GIT_REV='$Id$'
-GIT_REV="${MODULE_VERSION}-git-${GIT_REV#?????}"
+test -e ./BUILD_VERSION && GIT_REV=$(cat BUILD_VERSION) || GIT_REV=dev
 
-PKG_VERSION=$(echo "${GIT_REV%??}")
+PKG_VERSION="${MODULE_VERSION}-git-${GIT_REV}"
 PKG_NAME="luci-openvpn-status"
 
 LUA_LIB_DIR="/usr/lib/lua/"

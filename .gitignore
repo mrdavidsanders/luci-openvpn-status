@@ -2,3 +2,5 @@ lib
 test/openvpn.htm
 tmp/*
 build
+BUILD_VERSION
+
