@@ -61,7 +61,7 @@ jobs:
           id: pkg-version
           run: |
             echo "${{ github.run_number }}" > ./GIT_REV &&
-            echo "pkg-version=luci-openvpn-status_$(cat ./MODULE_VERSION-$(cat ./GIT_REV)" >> $GITHUB_OUTPUT
+            echo "pkg-version=luci-openvpn-status_$(cat ./MODULE_VERSION)-$(cat ./GIT_REV)" >> $GITHUB_OUTPUT
 
         - name: Download a single artifact
           uses: actions/download-artifact@v4
@@ -69,9 +69,6 @@ jobs:
             name: luci-openvpn-status
             path: ./build/
 
-        # - name: Show the folder contents
-        #  run: find ./build
-          
         - name: Release the beast
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
