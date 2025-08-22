@@ -21,7 +21,7 @@ jobs:
 
         - name: Create Revision Name
           run: |
-            if [ "${{github.ref_type }} == "tag" ]; then \
+            if [ "${{github.ref_type }}" == "tag" ]; then \
             echo ${{ github.ref_name}} > ./MODULE_VERSION \
             else echo "dev" > ./MODULE_VERSION; fi
 
@@ -51,7 +51,7 @@ jobs:
 
         - name: Create Revision Name
           run: |
-            if [ "${{github.ref_type }} == "tag" ]; then \
+            if [ "${{github.ref_type }}" == "tag" ]; then \
             echo ${{ github.ref_name}} > ./MODULE_VERSION \
             else echo "dev" > ./MODULE_VERSION; fi
 
