@@ -25,14 +25,14 @@ jobs:
             echo ${{ github.ref_name}} > ./MODULE_VERSION; \
             else echo "dev" > ./MODULE_VERSION; fi 
 
-        - name: Make
-          run: make clean build
-
         - name: Create Version
           id: pkg-version
           run: |
             echo "${{ github.run_number }}" > ./GIT_REV &&
-            echo "pkg-version=luci-openvpn-status_$(cat ./MODULE_VERSION)-${{ github.run_number }}" >> $GITHUB_OUTPUT
+            echo "pkg-version=luci-openvpn-status_$(cat ./MODULE_VERSION)-$(cat ./GIT_REV)" >> $GITHUB_OUTPUT
+
+        - name: Make
+          run: make clean build
 
         - name: Upload versioned artifact
           uses: actions/upload-artifact@v4
@@ -61,7 +61,7 @@ jobs:
           id: pkg-version
           run: |
             echo "${{ github.run_number }}" > ./GIT_REV &&
-            echo "pkg-version=luci-openvpn-status_$(cat ./MODULE_VERSION)-${{ github.run_number }}" >> $GITHUB_OUTPUT
+            echo "pkg-version=luci-openvpn-status_$(cat ./MODULE_VERSION-$(cat ./GIT_REV)" >> $GITHUB_OUTPUT
 
         - name: Download a single artifact
           uses: actions/download-artifact@v4
