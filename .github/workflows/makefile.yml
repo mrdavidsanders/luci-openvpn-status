@@ -22,7 +22,7 @@ jobs:
         - name: Create Revision Name
           run: |
             if [ "${{github.ref_type }}" == "tag" ]; then \
-            echo ${{ github.ref_name}} > ./MODULE_VERSION \
+            echo ${{ github.ref_name}} > ./MODULE_VERSION; \
             else echo "dev" > ./MODULE_VERSION; fi
 
         - name: Make
@@ -52,7 +52,7 @@ jobs:
         - name: Create Revision Name
           run: |
             if [ "${{github.ref_type }}" == "tag" ]; then \
-            echo ${{ github.ref_name}} > ./MODULE_VERSION \
+            echo ${{ github.ref_name}} > ./MODULE_VERSION; \
             else echo "dev" > ./MODULE_VERSION; fi
 
         - name: Create Version
