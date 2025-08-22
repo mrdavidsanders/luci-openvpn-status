@@ -6,11 +6,10 @@ AC_GRAY="\e[37m"
 AC_WHITE="\e[97m"
 AC_END="\e[0m"
 
+PKG_NAME="luci-openvpn-status"
 MODULE_VERSION=$(cat ./MODULE_VERSION)
 test -e ./BUILD_VERSION && GIT_REV=$(cat BUILD_VERSION) || GIT_REV=dev
-
-PKG_VERSION="${MODULE_VERSION}-git-${GIT_REV}"
-PKG_NAME="luci-openvpn-status"
+PKG_VERSION="${MODULE_VERSION}-${GIT_REV}"
 
 LUA_LIB_DIR="/usr/share/lua/5.1/"
 LUCI_LUA_ADMIN_INDEX_DIR="./test"
