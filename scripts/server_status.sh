@@ -1,10 +1,19 @@
 #!/bin/bash
-> /tmp/ovpn_connstats
-> /tmp/ovpn_connstats.json
-> /tmp/ovpn_routestats
-> /tmp/ovpn_routestats.json
 
-#Connection Header Lines
+# Requires https://github.com/medialab/xan  (==Very Fast)
+# CSVLIB="xan"
+# Or https://github.com/wireservice/csvkit  (!=Very Fast)
+# CSVLIB="csvkit"
+
+: ${STATUS_LOG_LOCATION:="/var/log"}
+: ${STATUS_LOG_NAME:="status.log"}
+: ${CSVLIB:="xan"}
+
+# Clear the stats
+> /tmp/ovpn_connstats
+> /tmp/ovpn_routestats
+
+# Get Connection Header Lines
 cat /var/log/status.log | \
 head -3 | \
 tail +3 | \
@@ -13,7 +22,7 @@ sed 's/^/"/g' | \
 sed 's/,/","/g' | \
 sed 's/$/"/g' >> /tmp/ovpn_connstats
 
-# Data
+# Get Connection Data
 cat /var/log/status.log | \
 sed -n '/Connected\ Since/,/ROUTING\ TABLE/p' | \
 tail +2 | head -n-1 | \
@@ -23,7 +32,7 @@ sed 's/,/","/g' | \
 sed 's/$/"/g' \
 >> /tmp/ovpn_connstats
 
-# Route Header Lines
+# Get Route Header Lines
 cat /var/log/status.log | \
 grep -A10000 -e ROUTING\ TABLE | \
 grep -B10000 -e GLOBAL\ STATS | \
@@ -35,7 +44,7 @@ sed 's/^/"/g' | \
 sed 's/,/","/g' | \
 sed 's/$/"/g' >> /tmp/ovpn_routestats
 
-# Data
+# Get Route Data
 cat /var/log/status.log | \
 sed -n '/Last\ Ref/,/GLOBAL\ STATS/p' | \
 tail +2 | head -n-1 | \
@@ -47,7 +56,12 @@ sed 's/$/"/g' \
 >> /tmp/ovpn_routestats
 
 #Join
-csvjoin -c CommonName \
-        /tmp/ovpn_routestats \
-        /tmp/ovpn_connstats  \
-|csvjson| jq '.|map({"CommonName":.CommonName,Values:.})|group_by(.Values.CommonName)|map({"Common Name":.[0].CommonName,"Real Address":.[0].Values.RealAddress,"Connected Since":.[0].Values.ConnectedSince,"Last Ref":.[0].Values.LastRef,"Bytes Received":.[0].Values.BytesReceived,"Bytes Sent":.[0].Values.BytesSent,"Virtual Address":map(.Values.VirtualAddress)})'
+if [[ "${CSVLIB}" == "xan" ]]; then 
+        xan join CommonName /tmp/ovpn_connstats CommonName /tmp/ovpn_routestats | \
+        xan to json | \
+        jq '.|map({"CommonName":.CommonName,Values:.})|group_by(.Values.CommonName)|map({"Common Name":.[0].CommonName,"Real Address":.[0].Values.RealAddress,"Connected Since":.[0].Values.ConnectedSince,"Last Ref":.[0].Values.LastRef,"Bytes Received":.[0].Values.BytesReceived,"Bytes Sent":.[0].Values.BytesSent,"Virtual Address":map(.Values.VirtualAddress)})'
+elif [[ "${CSVLIB}" == "csvkit" ]]; then
+        csvjoin -c CommonName /tmp/ovpn_connstats /tmp/ovpn_routestats | \
+        csvjson | \
+        jq '.|map({"CommonName":.CommonName,Values:.})|group_by(.Values.CommonName)|map({"Common Name":.[0].CommonName,"Real Address":.[0].Values.RealAddress,"Connected Since":.[0].Values.ConnectedSince,"Last Ref":.[0].Values.LastRef,"Bytes Received":.[0].Values.BytesReceived,"Bytes Sent":.[0].Values.BytesSent,"Virtual Address":map(.Values.VirtualAddress)})'
+fi
