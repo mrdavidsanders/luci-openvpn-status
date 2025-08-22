@@ -1,6 +1,13 @@
 #!/bin/sh
-SSH_USER=root
-SSH_HOST=openvpn.home.dsanders.uk
-JSON_OUT='/tmp/openvpn_new.json'
-VPN_CLIENT="$(ssh ${SSH_USER}@${SSH_HOST} /root/openvpn_routes.sh)"
-echo $VPN_CLIENT > $JSON_OUT 
+# These vars should be overriden - don't put them here 
+# unless you're sure!
+ 
+: ${SSH_USER:=""}
+: ${SSH_HOST:=""}
+
+if [ "$(echo ${SSH_USER)" != "" && "$(echo ${SSH_HOST)" != "" ]; then
+    JSON_OUT='/tmp/openvpn_new.json'
+    VPN_CLIENT="$(ssh ${SSH_USER}@${SSH_HOST})"
+    echo $VPN_CLIENT > $JSON_OUT 
+fi
+
