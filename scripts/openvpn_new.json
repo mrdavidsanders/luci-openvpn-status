@@ -1,1 +1,14 @@
-{ "waiting-for-data": [ { "Virtual Address": "0.0.0.0", "Common Name": "waiting-for-data", "Real Address": "0.0.0.0:00000", "Last Ref": "0000-00-00T00:00:00" }, { "Virtual Address": "fd00:00:00:00::8", "Common Name": "waiting-for-data", "Real Address": "0.0.0.0:00000", "Last Ref": "0000-00-00T00:00:00" }, { "Common Name": "waiting-for-data", "Real Address": "0.0.0.0:00000", "Bytes Received": 0, "Bytes Sent": 0, "Connected Since": "0000-00-00T00:00:00" } ] }
+[
+  {
+    "Common Name": "waiting-for-data",
+    "Real Address": "0.0.0.0:00000",
+    "Connected Since": "0000-00-00T00:00:00",
+    "Last Ref": "0000-00-00T00:00:00",
+    "Bytes Received": 0,
+    "Bytes Sent": 0,
+    "Virtual Address": [
+      "0.0.0.0",
+      "fd00:00:00:00::0"
+    ]
+  }
+]
