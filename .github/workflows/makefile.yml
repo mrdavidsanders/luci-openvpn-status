@@ -19,18 +19,24 @@ jobs:
             version: v2.1.0
             args: false
 
+        - name: Create Revision Name
+          run: |
+            if [ "${{github.ref_type }} == "tag" ]; then \
+            echo ${{ github.ref_name}} > ./MODULE_VERSION \
+            else echo "dev" > ./MODULE_VERSION; fi
+
         - name: Make
           run: make clean build
 
         - name: Create Version
           id: pkg-version
-          run: echo "pkg-version=luci-openvpn-status-$(cat ./MODULE_VERSION)-git-${{ github.sha }}" >> $GITHUB_OUTPUT
+          run: echo "pkg-version=luci-openvpn-status_$(cat ./MODULE_VERSION)-${{ github.run_number }}" >> $GITHUB_OUTPUT
 
         - name: Upload versioned artifact
           uses: actions/upload-artifact@v4
           with:
             name: luci-openvpn-status
-            path: ./build/${{ steps.pkg-version.outputs.pkg-version }}.tgz
+            path: ./build/${{ steps.pkg-version.outputs.pkg-version }}_all.tgz
 
   release:
         needs: build
@@ -43,9 +49,15 @@ jobs:
         - name: Ensure the build folder exists
           run: mkdir -p ./build
 
+        - name: Create Revision Name
+          run: |
+            if [ "${{github.ref_type }} == "tag" ]; then \
+            echo ${{ github.ref_name}} > ./MODULE_VERSION \
+            else echo "dev" > ./MODULE_VERSION; fi
+
         - name: Create Version
           id: pkg-version
-          run: echo "pkg-version=luci-openvpn-status-$(cat ./MODULE_VERSION)-git-${{ github.sha }}" >> $GITHUB_OUTPUT
+          run: echo "pkg-version=luci-openvpn-status_$(cat ./MODULE_VERSION)-${{ github.run_number }}" >> $GITHUB_OUTPUT
 
         - name: Download a single artifact
           uses: actions/download-artifact@v4
@@ -61,6 +73,6 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: >-
             gh release create ${{ github.ref_name }}
-            "./build/${{ steps.pkg-version.outputs.pkg-version }}.tgz#luci-openvpn-status-${{ github.ref_name}}-openwrt-noarch"
+            "./build/${{ steps.pkg-version.outputs.pkg-version }}.tgz#luci-openvpn-status_${{ github.ref_name}}_all"
             --generate-notes
-            --title "luci-openwrt-status (${{ github.ref_name }}-${{ github.sha }})"
+            --title "luci-openwrt-status release: ${{ github.ref_name }}-${{ github.run_number }}"
