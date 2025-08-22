@@ -82,7 +82,7 @@ local function openvpn()
             dprint("Table is: ", row)
             rows = row
             dprint("******BEGIN ROW******")
-            dprint(rows['Common Name'])
+            dprint("Row CN", rows['Common Name'])
             chtml = chtml 
             .. "<tr class='openvpntr tr cbi-rowstyle-" .. tostring(cnt) .. "'>"
             .. "<td class='openvpntd td' data-title='Common Name'>" .. rows["Common Name"] .. "</td>"
