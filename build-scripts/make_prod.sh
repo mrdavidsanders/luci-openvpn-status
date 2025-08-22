@@ -7,7 +7,7 @@ AC_WHITE="\e[97m"
 AC_END="\e[0m"
 
 MODULE_VERSION=$(cat ./MODULE_VERSION)
-test -e ./GIT_REV && GIT_REV=$(cat ./GIT_REV) || GIT_REV = $(date +%s)
+test -e ./GIT_REV && GIT_REV=$(cat ./GIT_REV) || GIT_REV=$(date +%s)
 
 PKG_VERSION="${MODULE_VERSION}-${GIT_REV}"
 PKG_NAME="luci-openvpn-status"
