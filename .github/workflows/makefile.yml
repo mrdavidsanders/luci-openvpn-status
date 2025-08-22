@@ -76,4 +76,4 @@ jobs:
             gh release create ${{ github.ref_name }}
             "./build/${{ steps.pkg-version.outputs.pkg-version }}.tgz#${{ steps.pkg-version.outputs.pkg-version }}.tgz"
             --generate-notes
-            --title "luci-openwrt-status ${{ github.ref_name }}-${{ github.run_number }}"
+            --title "luci-openvpn-status ${{ github.ref_name }}-${{ github.run_number }}"
