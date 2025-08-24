@@ -46,10 +46,11 @@ echo -e "${AC_GREEN}Remove debug from prod Lua modules" >&2
 for MOD in $LUAMODS; do
 	echo -e "${AC_WHITE}$MOD" >&2
 	sed -i "s/dprint(\".*)//g" $MOD >&2
-	echo "luamin -f $MOD > $MOD.min" >&2
-    luamin -f $MOD > $MOD.min
+	echo "/usr/local/bin/luamin -f $MOD > $MOD.min" >&2
+    /usr/local/bin/luamin -f $MOD > $MOD.min
     cp $MOD.min $MOD >&2
     rm $MOD.min >&2
+    ls -l $BUILD_DIR
 done
 
 echo >&2
