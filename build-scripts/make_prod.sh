@@ -14,6 +14,11 @@ PKG_VERSION="${MODULE_VERSION}-${GIT_REV}"
 
 echo -e "${AC_GREEN}Building: ${AC_WHITE}$PKG_NAME ${AC_GREEN}Version: ${AC_WHITE}$PKG_VERSION" >&2
 echo >&2
+
+LUAVER=$(lua -v 2>&1|sed 's/..Copy.*//g') && echo -e "${AC_GREEN}Lua: ${AC_WHITE}${LUAVER}" >&2
+LUAMINVER=$(/usr/local/bin/luamin -v); echo -e "${AC_GREEN}Luamin: ${AC_WHITE}$LUAMINVER" >&2
+echo >&2
+
 PRODFILES="scripts/client-status.sh \
            scripts/crontab.example  \
 	   scripts/server_status.sh \
