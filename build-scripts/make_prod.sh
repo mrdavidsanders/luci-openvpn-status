@@ -41,7 +41,9 @@ echo -e "${AC_GREEN}Remove debug from prod Lua modules" >&2
 for MOD in $LUAMODS; do
 	echo -e "${AC_WHITE}$MOD" >&2
 	sed -i "s/dprint(\".*)//g" $MOD
-	stylua --syntax Lua51 $MOD
+	luamin -f "${MOD}"|cat > ${MOD}.min
+    cp ${MOD}.min ${MOD}
+    rm ${MOD}.min
 done
 
 echo >&2
