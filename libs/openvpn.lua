@@ -54,10 +54,10 @@ local function openvpn()
                 for _, vvv in pairs(vv) do
                      if string.match(vvv, "%a")  then
                         line["IPv6"]=vvv   
-                        dprint("adding", vvv)
+                        dprint("adding", kk, vvv)
                     else
                         line["IPv4"]=vvv
-                        dprint("adding", vvv)
+                        dprint("adding", kk, vvv)
                     end
                 end
                 table.insert(row, line)
@@ -83,6 +83,8 @@ local function openvpn()
             rows = row
             dprint("******BEGIN ROW******")
             dprint("Row CN", rows['Common Name'])
+            dprint("Row IPv6", rows['IPv6'])
+            dprint("Row IPv4", rows['IPv4'])
             chtml = chtml 
             .. "<tr class='openvpntr tr cbi-rowstyle-" .. tostring(cnt) .. "'>"
             .. "<td class='openvpntd td' data-title='Common Name'>" .. rows["Common Name"] .. "</td>"
