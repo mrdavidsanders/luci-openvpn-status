@@ -15,10 +15,6 @@ PKG_VERSION="${MODULE_VERSION}-${GIT_REV}"
 echo -e "${AC_GREEN}Building: ${AC_WHITE}$PKG_NAME ${AC_GREEN}Version: ${AC_WHITE}$PKG_VERSION" >&2
 echo >&2
 
-LUAVER=$(lua -v 2>&1|sed 's/..Copy.*//g') && echo -e "${AC_GREEN}Lua: ${AC_WHITE}${LUAVER}" >&2
-LUAMINVER=$(/usr/local/bin/luamin -v); echo -e "${AC_GREEN}Luamin: ${AC_WHITE}$LUAMINVER" >&2
-echo >&2
-
 PRODFILES="scripts/client-status.sh \
            scripts/crontab.example  \
 	   scripts/server_status.sh \
@@ -43,14 +39,11 @@ done
 echo >&2
 LUAMODS=`ls $BUILD_DIR/*.lua `
 echo -e "${AC_GREEN}Remove debug from prod Lua modules" >&2
+LUAMINVER=$(/usr/local/bin/luamin -v); echo -e "${AC_GREEN}Luamin: ${AC_WHITE}$LUAMINVER" >&2
 for MOD in $LUAMODS; do
 	echo -e "${AC_WHITE}$MOD" >&2
 	sed -i "s/dprint(\".*)//g" $MOD >&2
-	echo "/usr/local/bin/luamin -f $MOD > $MOD.min" >&2
-    /usr/local/bin/luamin -f $MOD > $MOD.min
-    cp $MOD.min $MOD >&2
-    rm $MOD.min >&2
-    ls -l $BUILD_DIR
+    /usr/local/bin/luamin -f $MOD > $MOD.min && cp $MOD.min $MOD && rm $MOD.min
 done
 
 echo >&2
