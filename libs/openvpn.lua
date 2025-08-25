@@ -1,13 +1,14 @@
-filesize = require "filesize"
+local filesize = require "filesize"
 require "io"
 require "string"
+local __DEBUG__
 
 local function dprint(...)
     if __DEBUG__ == 1 then
         date = os.date("%x %X")
         local args = "[dbg] [" .. date .. "] "
 
-        for i, v in ipairs(arg) do
+        for _, v in ipairs(arg) do
             args = args .. tostring(v) .. " "
         end
         print(args)
@@ -34,14 +35,10 @@ local function openvpn()
         parsedata = luci.jsonc.parse(test:read("*all"))
         test:close()
     end
-
-
     dprint("*************START**************")
     local data = {}
-    local row = {}
-    local line = {}
 	-- Parse the JSON
-    for k, v in pairs(parsedata) do
+    for _, v in pairs(parsedata) do
         local row = {}
         local line = {}
         cn = v['Common Name']
@@ -53,7 +50,7 @@ local function openvpn()
             if kk == "Virtual Address" then
                 for _, vvv in pairs(vv) do
                      if string.match(vvv, "%a")  then
-                        line["IPv6"]=vvv   
+                        line["IPv6"]=vvv
                         dprint("adding", kk, vvv)
                     else
                         line["IPv4"]=vvv
@@ -68,29 +65,27 @@ local function openvpn()
         end
         table.insert(data[cn], line)
     end
-	
-    
 	-- Generate the Luci-fied HTML
     dprint("***********START**************")
     dprint("Beginning HTML Generation")
-    local rows = {}
+    local rows
     local cnt = 1
     local chtml = ""
     for _z, _v in pairs(data) do
         dprint("(data) 1", _z, _v)
-        for key, row in pairs(_v) do
+        for _, row in pairs(_v) do
             dprint("Table is: ", row)
             rows = row
             dprint("******BEGIN ROW******")
             dprint("Row CN", rows['Common Name'])
             dprint("Row IPv6", rows['IPv6'])
             dprint("Row IPv4", rows['IPv4'])
-            chtml = chtml 
+            chtml = chtml
             .. "<tr class='openvpntr tr cbi-rowstyle-" .. tostring(cnt) .. "'>"
             .. "<td class='openvpntd td' data-title='Common Name'>" .. rows["Common Name"] .. "</td>"
             .. "<td class='openvpntd td' data-title='VPN v4 / v6'>" .. rows["IPv4"] .. " / " .. rows["IPv6"] .. "</td>"
             .. "<td class='openvpntd td' data-title='Remote Address'>" .. rows["Real Address"] .. "</td>"
-            .. "<td class='openvpntd td' data-title='RX / TX'>" 
+            .. "<td class='openvpntd td' data-title='RX / TX'>"
             .. filesize(rows["Bytes Sent"]) .. " / " .. filesize(rows["Bytes Received"]) .. "</td>"
             .. "<td class='openvpntd td' data-title='Connected'>" .. rows["Connected Since"] .. "</td>"
             .. "<td class='openvpntd td' data-title='Refreshed'>" .. rows["Last Ref"] .. "</td>"
@@ -100,7 +95,7 @@ local function openvpn()
             end
             cnt = cnt + 1
             dprint("******END ROW******")
-        end                      
+        end
     end
     dprint("*************END**************")
     if __DEBUG__ == 0 then
