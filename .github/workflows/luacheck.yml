@@ -18,14 +18,19 @@ jobs:
       - name: Install LuaCheck
         run: sudo apt-get install -y lua-check
 
+      - name: Install LuaMin
+        run: npm install luamin
+
       - name: Run LuaCheck
         run: |
           for x in $(ls ./libs/*.lua); do 
             luacheck $x; 
           done
-      - name: Remove debug from prod Lua modules
+
+      - name: Run LuaMin
         run: |
           for MOD in $(ls ./libs/*.lua); do
             sed -i "s/dprint(\".*)//g" $MOD 
             /usr/local/bin/luamin -f $MOD > $MOD.min && cp $MOD.min $MOD && rm $MOD.min
           done
+          
