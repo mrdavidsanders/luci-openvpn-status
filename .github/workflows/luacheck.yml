@@ -1,0 +1,25 @@
+---
+name: LuaCheck
+
+on: 
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  LuaCheck:
+    name: LuaCheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install LuaCheck
+        run: sudo apt-get install -y lua-check
+
+      - name: Run LuaCheck
+        run: |
+          for x in $(ls ./libs/*.lua); do 
+            luacheck $x; 
+          done

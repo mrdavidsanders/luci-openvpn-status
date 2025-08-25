@@ -27,7 +27,7 @@ jobs:
           id: pkg-version
           run: |
             echo "${{ github.run_number }}" > ./GIT_REV &&
-            echo "pkg-version=luci-openvpn-status_$(cat ./MODULE_VERSION)-$(cat ./GIT_REV)" >> $GITHUB_OUTPUT
+            echo "pkg-version=luci-openvpn-status_$(cat ./MODULE_VERSION)-$(cat ./GIT_REV)" >> "$GITHUB_OUTPUT"
 
         - name: Make
           run: make clean build
@@ -59,7 +59,7 @@ jobs:
           id: pkg-version
           run: |
             echo "${{ github.run_number }}" > ./GIT_REV &&
-            echo "pkg-version=luci-openvpn-status_$(cat ./MODULE_VERSION)-$(cat ./GIT_REV)" >> $GITHUB_OUTPUT
+            echo "pkg-version=luci-openvpn-status_$(cat ./MODULE_VERSION)-$(cat ./GIT_REV)" >> "$GITHUB_OUTPUT"
 
         - name: Download a single artifact
           uses: actions/download-artifact@v4
