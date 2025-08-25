@@ -20,6 +20,6 @@ jobs:
 
       - name: Run LuaCheck
         run: |
-          for $x in $(ls ./libs/*.lua); do 
+          for x in $(ls ./libs/*.lua); do 
             luacheck $x; 
           done
