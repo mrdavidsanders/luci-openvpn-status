@@ -20,7 +20,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      - name: LuaCheck
-        uses: lunarmodules/luacheck@v1.2.0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install LuaCheck
+        run: apt install lua-check
+
+      - name: Run LuaCheck
+        run: |
+          for $x in $(ls ./libs/*.lua); do 
+            luacheck $x; 
+          done
