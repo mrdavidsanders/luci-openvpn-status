@@ -36,6 +36,6 @@ jobs:
             sed -i "s/dprint(\".*)//g" $MOD
             echo "LuaMin $MOD" 
             # luamin -f $MOD > $MOD.min && cp $MOD.min $MOD && rm $MOD.min
-            which luamin
+            # which luamin
           done
 
