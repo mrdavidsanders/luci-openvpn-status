@@ -62,8 +62,6 @@ jobs:
               contains(fromJSON('["refs/heads/main", "refs/heads/master"]'), github.ref)
             }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISABLE_LINTERS: LUA_SELENE,LUA_STYLUA.SPELL
-          BASH_SHELLCHECK_DISABLE_ERRORS: true
 
       - name: Archive production artifacts
         if: success() || failure()
