@@ -5,7 +5,7 @@ on:
   pull_request:
     branches:
       - main
-      
+
 jobs:
   LuaCheck:
     name: LuaCheck
@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install LuaCheck
-        run: apt install lua-check
+        run: sudo apt-get install -y lua-check
 
       - name: Run LuaCheck
         run: |
