@@ -15,7 +15,6 @@ jobs:
     permissions:
       contents: read
       packages: read
-      # To report GitHub Actions status checks
       statuses: write
 
     steps:
@@ -25,7 +24,6 @@ jobs:
           fetch-depth: 0
 
       - name: Super-linter
-        uses: super-linter/super-linter@v8.1.0 
+        uses: super-linter/super-linter@5.4.2
         env:
-          # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
