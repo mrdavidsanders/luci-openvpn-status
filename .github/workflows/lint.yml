@@ -27,3 +27,4 @@ jobs:
         uses: super-linter/super-linter@v5.4.2
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          FILTER_REGEX_EXCLUDE: ^scripts/.+\.sh$
