@@ -24,7 +24,7 @@ jobs:
           fetch-depth: 0
 
       - name: MegaLinter
-        uses: ghcr.io/oxsecurity/megalinter-ci_light:v8
+        uses: ghcr.io/oxsecurity/megalinter-ci_light@v8
         id: ml
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
