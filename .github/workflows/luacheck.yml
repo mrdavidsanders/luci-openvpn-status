@@ -1,5 +1,5 @@
 ---
-name: LuaCheck
+name: Lua Lint
 
 on: 
   pull_request:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   LuaCheck:
-    name: LuaCheck
+    name: Lua Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -16,10 +16,26 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install LuaCheck
-        run: sudo apt-get install -y lua-check
+        run: |
+          DEBIAN_FRONTEND=noninteractive \
+          sudo apt-get install -yq lua-check
+
+      - name: Install LuaMin
+        run: npm install luamin
 
       - name: Run LuaCheck
         run: |
           for x in $(ls ./libs/*.lua); do 
             luacheck $x; 
           done
+
+      - name: Run LuaMinm
+        run: |
+          for MOD in $(ls ./libs/*.lua); do
+            echo "Remove debug from $MOD"
+            sed -i "s/dprint(\".*)//g" $MOD
+            echo "LuaMin $MOD" 
+            # luamin -f $MOD > $MOD.min && cp $MOD.min $MOD && rm $MOD.min
+            # which luamin
+          done
+
