@@ -1,5 +1,5 @@
 ---
-name: LuaCheck
+name: Lua Lint
 
 on: 
   pull_request:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   LuaCheck:
-    name: LuaCheck
+    name: Lua Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -22,4 +22,10 @@ jobs:
         run: |
           for x in $(ls ./libs/*.lua); do 
             luacheck $x; 
+          done
+      - name: Remove debug from prod Lua modules
+        run: |
+          for MOD in $(ls ./libs/*.lua); do
+            sed -i "s/dprint(\".*)//g" $MOD 
+            /usr/local/bin/luamin -f $MOD > $MOD.min && cp $MOD.min $MOD && rm $MOD.min
           done
