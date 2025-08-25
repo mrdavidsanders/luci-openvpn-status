@@ -1,0 +1,26 @@
+---
+name: LuaCheck
+
+on: 
+  pull_request:
+    branches:
+      - main
+
+permissions: {}
+
+jobs:
+  LuaCheck:
+    name: LuaCheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: LuaCheck
+        uses: lunarmodules/luacheck@v1.2.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
