@@ -16,6 +16,7 @@ jobs:
 
         - name: Install Lua 5.1
           run: |
+           sudo rm /var/lib/man-db/auto-update &&
            DEBIAN_FRONTEND=noninteractive \
            sudo apt-get install -yq lua5.1
 
