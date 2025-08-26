@@ -14,14 +14,6 @@ jobs:
       steps:
         - uses: actions/checkout@v4
 
-        - name: Install Lua 5.1
-          run: |
-           sudo rm -f /var/lib/man-db/auto-update &&
-           sudo dpkg --add-architecture i386 &&
-           sudo apt-get update  --allow-releaseinfo-change &&
-           DEBIAN_FRONTEND=noninteractive \
-           sudo apt-get install -yq lua5.1:i386
-
         - name: Install luamin
           run: sudo npm install -g luamin
 

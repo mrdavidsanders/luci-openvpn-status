@@ -28,7 +28,7 @@ test -e /usr/bin/whoami && if [ "$(whoami)" != "root" ]; \
         then echo -e "${AC_RED}You need root privileges to install Lua Libs${AC_END}"; \
         exit 1; fi || echo -e "${AC_GRAY}Skipping root user check"
 
-PREREQ_PACKAGES="luci-lua-runtime lua"
+PREREQ_PACKAGES="luci-lua-runtime lua luac"
 for PKG in ${PREREQ_PACKAGES}; do
         echo -e "Checking for $PKG"
         PREREQ=`opkg list-installed ${PKG}`
@@ -40,8 +40,8 @@ for PKG in ${PREREQ_PACKAGES}; do
 done
 LUALIBS="openvpn.lua filesize.lua"
 for LIB in ${LUALIBS}; do
-        echo -e "${AC_WHITE}Copying:${AC_GRAY} $LIB to $LUA_LIB_DIR"
-        cp $LIB $LUA_LIB_DIR
+        echo -e "${AC_WHITE}Compiling:${AC_GRAY} $LIB to $LUA_LIB_DIR"
+        luac -o $LUA_LIB_DIR/$LIB $LIB
 done
 HTMLPG="openvpn.htm"
 for HTM in ${HTMLPG}; do

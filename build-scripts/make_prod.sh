@@ -43,7 +43,6 @@ LUAMINVER=$(/usr/local/bin/luamin -v); echo -e "${AC_GREEN}Luamin: ${AC_WHITE}$L
 for MOD in $LUAMODS; do
 	echo -e "${AC_WHITE}$MOD" >&2
 	sed -i "s/dprint(\".*)//g" $MOD >&2
-    luac  -o $MOD.min $MOD && cp $MOD.min $MOD && rm $MOD.min
 done 
 
 echo >&2
