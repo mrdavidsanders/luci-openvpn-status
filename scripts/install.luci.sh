@@ -21,7 +21,7 @@ echo -e
 
 test -e /etc/openwrt_release && \
 if [ "$(source /etc/openwrt_release; echo -e $DISTRIB_RELEASE|cut -c1-2)" -lt $OWRT_MIN ]; \
-	then echo -e "${AC_WHITE}Your OpenWRT version ${AC_RED}($DISTRIB_RELEASE) ${AC_WHITE}may be too old"; \
+        then echo -e "${AC_WHITE}Your OpenWRT version ${AC_RED}($DISTRIB_RELEASE) ${AC_WHITE}may be too old"; \
 fi ||  { echo -e "${AC_RED}Not installing on non-OpenWRT system${AC_END}" && exit 1; }
 
 test -e /usr/bin/whoami && if [ "$(whoami)" != "root" ]; \
@@ -38,13 +38,18 @@ for PKG in ${PREREQ_PACKAGES}; do
                 exit 1
         fi
 done
-
 LUALIBS="openvpn.lua filesize.lua"
-for LIB in ${LUALIBS}; do
+test -e /usr/bin/luac && \
+{ for LIB in ${LUALIBS}; do
         echo -e "${AC_WHITE}Compiling:${AC_GRAY} $LIB to $LUA_LIB_DIR"
-        echo "luac -o ${LUA_LIB_DIR}${LIB} ${LIB}" 
-        luac -o "${LUA_LIB_DIR}${LIB}" ${LIB} 
-done
+        echo "luac -o ${LUA_LIB_DIR}${LIB} ${LIB}"
+        luac -o "${LUA_LIB_DIR}${LIB}" ${LIB}
+done } || \
+{ echo -e "${AC_WHITE}Luac ${AC_GRAY} not found, libs will be unoptimised${AC_END}";
+for LIB in ${LUALIBS}; do
+        echo -e "${AC_WHITE}Copying:${AC_GRAY} $LIB to $LUA_LIB_DIR"
+        cp ${LIB} "${LUA_LIB_DIR}${LIB}"
+done }
 HTMLPG="openvpn.htm"
 for HTM in ${HTMLPG}; do
         echo -e "${AC_WHITE}Copying:${AC_GRAY} $HTM to $LUCI_LUA_ADMIN_INDEX_DIR"
