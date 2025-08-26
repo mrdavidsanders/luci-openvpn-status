@@ -30,13 +30,10 @@ jobs:
             luacheck $x; 
           done
 
-      - name: Run LuaMinm
+      - name: Remove Debug
         run: |
           for MOD in $(ls ./libs/*.lua); do
             echo "Remove debug from $MOD"
             sed -i "s/dprint(\".*)//g" $MOD
-            echo "LuaMin $MOD" 
-            # luamin -f $MOD > $MOD.min && cp $MOD.min $MOD && rm $MOD.min
-            # which luamin
           done
 
