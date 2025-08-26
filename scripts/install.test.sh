@@ -22,10 +22,11 @@ test -e /usr/bin/whoami && if [ "$(whoami)" != "root" ]; \
         exit 1; fi || echo -e "${AC_GRAY}Skipping root user check"
 
 echo -e "${AC_GRAY}"
-LUALIBS="./libs/openvpn.lua ./libs/filesize.lua"
+LUALIBS="openvpn.lua filesize.lua"
 for LIB in ${LUALIBS}; do
         echo -e "${AC_WHITE}Compiling:${AC_GRAY} $LIB to $LUA_LIB_DIR"
-        luac -o $LUA_LIB_DIR/$LIB $LIB
+        echo "luac -o $LUA_LIB_DIR$LIB ./libs/$LIB" 
+        luac -o "$LUA_LIB_DIR$LIB" ./libs/$LIB 
 done
 HTMLPG="openvpn.htm"
 for HTM in ${HTMLPG}; do

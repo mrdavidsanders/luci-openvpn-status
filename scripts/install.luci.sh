@@ -40,8 +40,11 @@ for PKG in ${PREREQ_PACKAGES}; do
 done
 LUALIBS="openvpn.lua filesize.lua"
 for LIB in ${LUALIBS}; do
-        echo -e "${AC_WHITE}Compiling:${AC_GRAY} $LIB to $LUA_LIB_DIR"
-        luac -o $LUA_LIB_DIR/$LIB $LIB
+        test -e /usr/bin/luac && echo -e \
+        "${AC_WHITE}Compiling:${AC_GRAY} $LIB to $LUA_LIB_DIR/$LIB"; \
+        luac -o $LUA_LIB_DIR$LIB $LIB \
+        || echo -e "${AC_WHITE}Copying:${AC_GRAY} $LIB to $LUA_LIB_DIR/$LIB"; \
+        cp $LIB $LUA_LIB_DIR
 done
 HTMLPG="openvpn.htm"
 for HTM in ${HTMLPG}; do
