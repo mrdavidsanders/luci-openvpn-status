@@ -14,6 +14,11 @@ jobs:
       steps:
         - uses: actions/checkout@v4
 
+        - name: Install Lua 5.1
+          run: |
+           DEBIAN_FRONTEND=noninteractive \
+           sudo apt-get install -yq lua5.1
+
         - name: Install luamin
           run: sudo npm install -g luamin
 
