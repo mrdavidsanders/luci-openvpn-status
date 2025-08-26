@@ -20,14 +20,18 @@ echo -e
 test -e /usr/bin/whoami && if [ "$(whoami)" != "root" ]; \
         then echo -e "${AC_RED}You need root privileges to install Lua Libs${AC_END}"; \
         exit 1; fi || echo -e "${AC_GRAY}Skipping root user check"
-
-echo -e "${AC_GRAY}"
 LUALIBS="openvpn.lua filesize.lua"
+test -e /usr/bin/luac && \
+{ for LIB in ${LUALIBS}; do
+        echo -e "${AC_WHITE}Compiling:${AC_GRAY} ./libs/$LIB to $LUA_LIB_DIR"
+        echo "luac -o ${LUA_LIB_DIR}${LIB} ./libs/${LIB}"
+        luac -o "${LUA_LIB_DIR}${LIB}" ./libs/${LIB}
+done } || \
+{ echo -e "${AC_WHITE}Luac ${AC_GRAY} not found, libs will be unoptimised${AC_END}";
 for LIB in ${LUALIBS}; do
-        echo -e "${AC_WHITE}Compiling:${AC_GRAY} $LIB to $LUA_LIB_DIR"
-        echo "luac -o ${LUA_LIB_DIR}${LIB} ./libs/${LIB}" 
-        luac -o "${LUA_LIB_DIR}${LIB}" ./libs/${LIB} 
-done
+        echo -e "${AC_WHITE}Copying:${AC_GRAY} ./libs/$LIB to $LUA_LIB_DIR"
+        cp ./libs/${LIB} "${LUA_LIB_DIR}${LIB}"
+done }
 HTMLPG="openvpn.htm"
 for HTM in ${HTMLPG}; do
         cp -v "./htm/$HTM" $LUCI_LUA_ADMIN_INDEX_DIR
