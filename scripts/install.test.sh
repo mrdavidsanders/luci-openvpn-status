@@ -25,8 +25,8 @@ echo -e "${AC_GRAY}"
 LUALIBS="openvpn.lua filesize.lua"
 for LIB in ${LUALIBS}; do
         echo -e "${AC_WHITE}Compiling:${AC_GRAY} $LIB to $LUA_LIB_DIR"
-        echo "luac -o $LUA_LIB_DIR$LIB ./libs/$LIB" 
-        luac -o "$LUA_LIB_DIR$LIB" ./libs/$LIB 
+        echo "luac -o ${LUA_LIB_DIR}${LIB} ./libs/${LIB}" 
+        luac -o "${LUA_LIB_DIR}${LIB}" ./libs/${LIB} 
 done
 HTMLPG="openvpn.htm"
 for HTM in ${HTMLPG}; do
