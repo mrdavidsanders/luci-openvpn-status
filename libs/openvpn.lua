@@ -15,6 +15,20 @@ local function dprint(...)
     end
 end
 
+local function pairsByKeys (t, f)
+      local a = {}
+      for n in pairs(t) do table.insert(a, n) end
+      table.sort(a, f)
+      local i = 0      -- iterator variable
+      local iter = function ()   -- iterator function
+        i = i + 1
+        if a[i] == nil then return nil
+        else return a[i], t[a[i]]
+        end
+      end
+      return iter
+    end
+
 local function openvpn()
     if isdebug == true then
         __DEBUG__ = 1
@@ -71,7 +85,7 @@ local function openvpn()
     local rows
     local cnt = 1
     local chtml = ""
-    for _z, _v in pairs(data) do
+    for _z, _v in pairsByKeys(data) do
         dprint("(data) 1", _z, _v)
         for _, row in pairs(_v) do
             dprint("Table is: ", row)
