@@ -17,6 +17,7 @@ jobs:
 
       - name: Install LuaCheck
         run: |
+          sudo rm /var/lib/man-db/auto-update &&
           DEBIAN_FRONTEND=noninteractive \
           sudo apt-get install -yq lua-check
 
