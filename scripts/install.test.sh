@@ -24,7 +24,9 @@ test -e /usr/bin/whoami && if [ "$(whoami)" != "root" ]; \
 echo -e "${AC_GRAY}"
 LUALIBS="./libs/openvpn.lua ./libs/filesize.lua"
 for LIB in ${LUALIBS}; do
-        cp -v $LIB $LUA_LIB_DIR
+	luac  -o $LIB.min $LIB
+        cp -v $LIB $LUA_LIB_DIR/$LIB
+        rm $LIB.min
 done
 HTMLPG="openvpn.htm"
 for HTM in ${HTMLPG}; do
