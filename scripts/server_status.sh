@@ -13,6 +13,10 @@
 > /tmp/ovpn_connstats
 > /tmp/ovpn_routestats
 
+# Force stat refresh
+OVPN_PID=$(cat /var/run/openvpn/server.pid)
+sudo kill -USR2 $OVPN_PID
+
 # Get Connection Header Lines
 cat /var/log/status.log | \
 head -3 | \
