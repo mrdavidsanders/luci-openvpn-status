@@ -7,7 +7,7 @@
 
 if [ "$(echo ${SSH_USER})" != "" ] && [ "$(echo ${SSH_HOST})" != "" ]; then
     JSON_OUT='/tmp/openvpn_new.json'
-    VPN_CLIENT="$(ssh ${SSH_USER}@${SSH_HOST})"
+    VPN_CLIENT="$(ssh -T ${SSH_USER}@${SSH_HOST})"
     echo $VPN_CLIENT > $JSON_OUT 
 fi
 
