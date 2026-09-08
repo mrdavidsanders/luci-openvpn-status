@@ -6,6 +6,7 @@ AC_GRAY="\e[37m"
 AC_WHITE="\e[97m"
 AC_END="\e[0m"
 
+PKG_MGR="apk"
 PKG_NAME="luci-openvpn-status"
 MODULE_VERSION=$(cat ./MODULE_VERSION)
 test -e ./BUILD_VERSION && GIT_REV=$(cat BUILD_VERSION) || GIT_REV=dev
@@ -29,9 +30,17 @@ test -e /usr/bin/whoami && if [ "$(whoami)" != "root" ]; \
         exit 1; fi || echo -e "${AC_GRAY}Skipping root user check"
 
 PREREQ_PACKAGES="luci-lua-runtime lua luac"
-for PKG in ${PREREQ_PACKAGES}; do
-        echo -e "Checking for $PKG"
-        PREREQ=`opkg list-installed ${PKG}`
+echo "PREREQS are $PREREQ_PACKAGES"
+for PKG in $(echo $PREREQ_PACKAGES); do
+        echo "Checking for $PKG"
+        if [ "${PKG_MGR}" == "opkg" ];
+        then
+                PREREQ=`opkg list-installed ${PKG}`
+        fi
+        if [ "${PKG_MGR}" == "apk" ];
+        then
+                PREREQ=`${PKG_MGR} list ${PKG}`
+        fi
         if [ "${PREREQ}" == "" ];
         then
                 echo -e "${AC_RED}${PKG} not installed!${AC_END}";
@@ -66,3 +75,4 @@ done
 echo -e
 echo -e "${AC_GREEN}$PKG_NAME ($PKG_VERSION) ${AC_WHITE}succesfully installed ${AC_END}"
 echo -e
+
